@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { StyleSheet, View } from 'react-native'; // View is still used for the separator
 
 import { ThemedText } from '@/components/ThemedText';
+import { IconSymbol } from '../../components/ui/IconSymbol';
 import { ThemedView } from '@/components/ThemedView'; // We'll use this for our sections
 import { Colors } from '@/constants/Colors'; // Make sure this path is correct
 import { useCustomTheme } from '../../contexts/ThemeContext';
@@ -27,7 +28,7 @@ export default function HomeScreen() {
             Budget Tracker
           </ThemedText>
           <TouchableOpacity onPress={toggleTheme} style={styles.toggleButton}>
-            <ThemedText type="link">Switch to {theme === 'light' ? 'Dark' : 'Light'}</ThemedText>
+            <IconSymbol iconSet="materialCommunity" name="theme-light-dark" size={24} color={Colors[theme].text} />
           </TouchableOpacity>
         </View>
         

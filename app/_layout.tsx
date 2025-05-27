@@ -2,10 +2,24 @@ import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } fro
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { CustomThemeProvider } from '../contexts/ThemeContext';
+import { CustomThemeProvider, useCustomTheme } from '../contexts/ThemeContext';
 
 import 'react-native-reanimated';
 
+
+function AppContent() {
+  const { theme } = useCustomTheme(); // Get the dynamic theme from context
+
+  return (
+    <NavigationThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
+    </NavigationThemeProvider>
+  );
+}
 
 export default function RootLayout() {
   
@@ -23,13 +37,7 @@ export default function RootLayout() {
 
   return (
     <CustomThemeProvider forcedTheme={appForcedColorScheme}>
-      <NavigationThemeProvider value={appForcedColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style={appForcedColorScheme === 'dark' ? 'light' : 'dark'} />
-      </NavigationThemeProvider>
+      <AppContent />
     </CustomThemeProvider>
   );
 }
