@@ -1,24 +1,36 @@
 import React from 'react';
-import { StyleSheet, View, useColorScheme } from 'react-native'; // View is still used for the separator
+import { TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native'; // View is still used for the separator
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView'; // We'll use this for our sections
 import { Colors } from '@/constants/Colors'; // Make sure this path is correct
+import { useCustomTheme } from '../../contexts/ThemeContext';
 
 export default function HomeScreen() {
   const currentMonth = "June";
   const currentStatus = "On Budget";
 
-  const colorScheme = useColorScheme() ?? 'light';
+  const { theme, setTheme } = useCustomTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
 
   return (
     // Root container for the screen
     <ThemedView style={styles.screenContainer}>
       {/* Header Section */}
       <ThemedView style={styles.headerSection}>
-        <ThemedText type="title" style={styles.appNameText}>
-          Budget Tracker
-        </ThemedText>
+        <View style={styles.headerTopRow}>
+          <ThemedText type="title" style={styles.appNameText}>
+            Budget Tracker
+          </ThemedText>
+          <TouchableOpacity onPress={toggleTheme} style={styles.toggleButton}>
+            <ThemedText type="link">Switch to {theme === 'light' ? 'Dark' : 'Light'}</ThemedText>
+          </TouchableOpacity>
+        </View>
+        
         <ThemedText style={styles.detailsText}>
           Month : {currentMonth}
         </ThemedText>
@@ -27,7 +39,7 @@ export default function HomeScreen() {
         </ThemedText>
         <View style={[
           styles.separator,
-          { backgroundColor: Colors[colorScheme].icon }
+          { backgroundColor: Colors[theme].icon }
         ]} />
       </ThemedView>
 
@@ -42,6 +54,18 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%', // Ensure it takes full width of headerSection
+    paddingHorizontal: 10, // Add some padding if headerSection doesn't have it
+    paddingTop: 10, // Add some padding if headerSection doesn't have it
+  },
+  toggleButton: {
+    padding: 8,
+    // Add more styling if needed, e.g., borderRadius, backgroundColor
+  },
   screenContainer: {
     flex: 1, // Make the screen container fill the entire screen
     // ThemedView will automatically apply the correct background color based on the theme

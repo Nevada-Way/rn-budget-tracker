@@ -1,11 +1,11 @@
 // contexts/ThemeContext.tsx
-import React, { createContext, ReactNode, useContext } from 'react';
+import React, { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 
 type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
-  // You could add a setTheme function here later if you want to toggle themes
+  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -24,8 +24,15 @@ interface CustomThemeProviderProps {
 }
 
 export const CustomThemeProvider = ({ children, forcedTheme }: CustomThemeProviderProps) => {
+  const [theme, setTheme] = useState<Theme>(forcedTheme);
+
+  // Optional: Update theme if forcedTheme prop changes externally after initial mount
+  useEffect(() => {
+    setTheme(forcedTheme);
+  }, [forcedTheme]);
+
   return (
-    <ThemeContext.Provider value={{ theme: forcedTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
