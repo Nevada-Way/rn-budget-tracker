@@ -1,15 +1,15 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { CustomThemeProvider } from '../contexts/ThemeContext';
 
 import 'react-native-reanimated';
 
 
 export default function RootLayout() {
   
-  //const colorScheme = useColorScheme();
-  const colorScheme = 'dark';     // Force dark theme
+  const appForcedColorScheme = 'dark'; // Hardcoded theme
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -22,12 +22,14 @@ export default function RootLayout() {
 
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+    <CustomThemeProvider forcedTheme={appForcedColorScheme}>
+      <NavigationThemeProvider value={appForcedColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+        </Stack>
+        <StatusBar style={appForcedColorScheme === 'dark' ? 'light' : 'dark'} />
+      </NavigationThemeProvider>
+    </CustomThemeProvider>
   );
 }
