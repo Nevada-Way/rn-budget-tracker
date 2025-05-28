@@ -2,6 +2,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } fro
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CustomThemeProvider, useCustomTheme } from '../contexts/ThemeContext';
 
 import 'react-native-reanimated';
@@ -36,8 +37,10 @@ export default function RootLayout() {
 
 
   return (
-    <CustomThemeProvider forcedTheme={appForcedColorScheme}>
-      <AppContent />
-    </CustomThemeProvider>
+    <SafeAreaProvider>
+      <CustomThemeProvider forcedTheme={appForcedColorScheme}>
+        <AppContent />
+      </CustomThemeProvider>
+    </SafeAreaProvider>
   );
 }

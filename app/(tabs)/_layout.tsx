@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform, Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -11,7 +12,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const resolvedColorScheme = colorScheme ?? 'light';
-  
+  const { bottom } = useSafeAreaInsets(); // Get bottom inset
 
     // Get the current year dynamically
     // For example, if this code runs in 2025, currentYear will be "2025"
@@ -52,9 +53,9 @@ export default function TabLayout() {
           },
           default: { // For Android and other platforms
             // Add similar padding for consistency if desired
-            paddingBottom: 0,
+            paddingBottom: bottom, // Apply bottom inset as padding
             paddingTop: 0,
-            height: 65, 
+            height: 65 + bottom, // Adjust height to include padding
             // paddingHorizontal: 10,
             // height: 60, // Example: if you wanted a fixed height
           },
