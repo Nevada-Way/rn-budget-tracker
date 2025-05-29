@@ -7,7 +7,7 @@ import { Colors } from '@/constants/Colors'; // Make sure this path is correct
 import { IconSymbol } from '../../components/ui/IconSymbol';
 import { useCustomTheme } from '../../contexts/ThemeContext';
 
-import { BudgetTrack, getBudgetTrack } from '../services';
+import { BudgetTrack, getBudgetTrack } from '../../services';
 
 
 
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     height: 120,
-    width: '50%', // Takes 100% of the bodySection width
+    width: '40%', // Takes 100% of the bodySection width
     borderColor: 'pink', // As per the image's highlight
     borderWidth: 2,
     marginBottom: 10, // Space between the two containers
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     height: 350,
-    width: '50%', // Takes 100% of the bodySection width
+    width: '40%', // Takes 100% of the bodySection width
     borderColor: 'pink', // As per the image's highlight
     borderWidth: 2,
     // backgroundColor: Colors[theme].surface, // Optional: if you want a themed background
