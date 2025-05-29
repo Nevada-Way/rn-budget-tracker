@@ -12,29 +12,26 @@ import { BudgetTrack, getBudgetTrack } from '../../services';
 
 
 export default function HomeScreen() {
+  const { theme, setTheme } = useCustomTheme(); // Moved theme logic up for clarity
+  const budgetTrack : BudgetTrack = getBudgetTrack(); // Moved budgetTrack up for clarity
 
+  // Calculate percentage heights for the inner boxes in topContainer
+  const blueBoxHeightPercent = budgetTrack.b2 * 10;
+  const redBoxHeightPercent = budgetTrack.r2 * 10;
 
-  /** 
-   * ====================
-   * Control for the Theme
-   * ====================
-    */
-  const { theme, setTheme } = useCustomTheme();
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
-
 
     /** 
    * ====================
    * Value for display of the budget tracker
    * ====================
     */
-
     const currentMonth = "June";
     const currentStatus = "On Budget";
-    const budgetTrack : BudgetTrack = getBudgetTrack();
+    // budgetTrack is now initialized earlier
   
 
   return (
@@ -66,10 +63,13 @@ export default function HomeScreen() {
       {/* Body/Content Section */}
       <ThemedView style={styles.bodySection}>
         <ThemedView style={styles.topContainer}>
-          {/* Content for top container can be added here later */}
+          <View style={[styles.innerBox, styles.blueBox,  { flex: budgetTrack.b2 }]} />
+          <View style={[styles.innerBox, styles.redBox,  { flex: budgetTrack.r2 }]} />
         </ThemedView>
         <ThemedView style={styles.bottomContainer}>
-          {/* Content for bottom container can be added here later */}
+          <View style={[styles.innerBox, styles.greenBoxBottom, { flex: budgetTrack.g }]} />
+          <View style={[styles.innerBox, styles.redBoxBottom, { flex: budgetTrack.r }]} />
+          <View style={[styles.innerBox, styles.whiteBoxBottom, { flex: budgetTrack.w }]} />
         </ThemedView>
       </ThemedView>
     </ThemedView>
@@ -135,14 +135,43 @@ const styles = StyleSheet.create({
     width: '40%', // Takes 100% of the bodySection width
     borderColor: 'pink', // As per the image's highlight
     borderWidth: 2,
-    marginBottom: 10, // Space between the two containers
+    marginBottom: 10, // Space between the top and bottom containers
+    padding: 10, // Space between topContainer border and inner boxes
+    justifyContent: 'flex-start', // Stack inner boxes from the top
+    // alignItems: 'stretch', // Default, inner boxes will stretch if width is not set
+                               // Since innerBox has width: '100%', this is fine.
     // backgroundColor: Colors[theme].surface, // Optional: if you want a themed background
   },
   bottomContainer: {
     height: 350,
-    width: '40%', // Takes 100% of the bodySection width
+    width: '40%', // User updated this from 100%
     borderColor: 'pink', // As per the image's highlight
     borderWidth: 2,
+    padding: 10, // Space between bottomContainer border and inner boxes
     // backgroundColor: Colors[theme].surface, // Optional: if you want a themed background
+    // No explicit justifyContent or alignItems needed if children use flex for height
+    // and innerBox style handles width.
+  },
+  innerBox: {
+    width: '100%', // Takes full width of the padded topContainer content area
+    // Other common styles for these boxes if any
+  },
+  blueBox: {
+    backgroundColor: 'lightblue',
+    marginBottom: 5, // Space between blue and red boxes
+  },
+  redBox: {
+    backgroundColor: 'red',
+  },
+  greenBoxBottom: {
+    backgroundColor: 'green',
+    marginBottom: 5, // Space between green and red boxes
+  },
+  redBoxBottom: {
+    backgroundColor: 'red',
+    marginBottom: 5, // Space between red and white boxes
+  },
+  whiteBoxBottom: {
+    backgroundColor: 'white',
   },
 });
