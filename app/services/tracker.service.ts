@@ -10,11 +10,11 @@ export type BudgetTrack = {
 export function getBudgetTrack(): BudgetTrack {
 	try {
 		const res = {
-            w: 1,
-            r: 1,
-            g: 1,
-            b2: 1,
-            r2: 1,
+            w: 4,
+            r: 2,
+            g: 4,
+            b2:2,
+            r2: 0,
         }
 		return res;
 	} catch (error) {

@@ -1,22 +1,41 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { StyleSheet, View } from 'react-native'; // View is still used for the separator
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
-import { IconSymbol } from '../../components/ui/IconSymbol';
 import { ThemedView } from '@/components/ThemedView'; // We'll use this for our sections
 import { Colors } from '@/constants/Colors'; // Make sure this path is correct
+import { IconSymbol } from '../../components/ui/IconSymbol';
 import { useCustomTheme } from '../../contexts/ThemeContext';
 
-export default function HomeScreen() {
-  const currentMonth = "June";
-  const currentStatus = "On Budget";
+import { BudgetTrack, getBudgetTrack } from '../services';
 
+
+
+export default function HomeScreen() {
+
+
+  /** 
+   * ====================
+   * Control for the Theme
+   * ====================
+    */
   const { theme, setTheme } = useCustomTheme();
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
+
+
+    /** 
+   * ====================
+   * Value for display of the budget tracker
+   * ====================
+    */
+
+    const currentMonth = "June";
+    const currentStatus = "On Budget";
+    const budgetTrack : BudgetTrack = getBudgetTrack();
+  
 
   return (
     // Root container for the screen
@@ -46,9 +65,12 @@ export default function HomeScreen() {
 
       {/* Body/Content Section */}
       <ThemedView style={styles.bodySection}>
-        <ThemedText type="subtitle" style={styles.placeholderText}>
-          Screen Monthly
-        </ThemedText>
+        <ThemedView style={styles.topContainer}>
+          {/* Content for top container can be added here later */}
+        </ThemedView>
+        <ThemedView style={styles.bottomContainer}>
+          {/* Content for bottom container can be added here later */}
+        </ThemedView>
       </ThemedView>
     </ThemedView>
   );
@@ -98,8 +120,8 @@ const styles = StyleSheet.create({
   bodySection: {
     // This style is based on your previous scrollContentContainer
     flex: 1, // This makes the body section take up all remaining vertical space
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center', // Center children horizontally
+    // justifyContent: 'center', // Removed to stack from top
     padding: 20,
     // borderWidth: 2, // You can remove debug borders
     // borderColor: 'green', // You can remove debug borders
@@ -107,5 +129,20 @@ const styles = StyleSheet.create({
   },
   placeholderText: {
     fontSize: 30,
+  },
+  topContainer: {
+    height: 120,
+    width: '50%', // Takes 100% of the bodySection width
+    borderColor: 'pink', // As per the image's highlight
+    borderWidth: 2,
+    marginBottom: 10, // Space between the two containers
+    // backgroundColor: Colors[theme].surface, // Optional: if you want a themed background
+  },
+  bottomContainer: {
+    height: 350,
+    width: '50%', // Takes 100% of the bodySection width
+    borderColor: 'pink', // As per the image's highlight
+    borderWidth: 2,
+    // backgroundColor: Colors[theme].surface, // Optional: if you want a themed background
   },
 });
