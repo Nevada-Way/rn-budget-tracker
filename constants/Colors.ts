@@ -14,6 +14,10 @@ export const Colors = {
     icon: '#687076',
     tabIconDefault: '#AAAAAA',
     tabIconSelected: tintColorLight,
+    textInGreenBox: '#FFFFFF', // White text on green box
+    textInRedBox: '#000000',   // White text on red box
+    textInWhiteBox: '#000000', // Black text on white box
+    textInBlueBox: '#000000',  // Black text on lightblue box
   },
   dark: {
     text: '#ECEDEE',
@@ -22,5 +26,9 @@ export const Colors = {
     icon: '#9BA1A6',
     tabIconDefault: '#DDDDDD',
     tabIconSelected: tintColorDark,
+    textInGreenBox: '#FFFFFF', // White text on green box (assuming green is not too light)
+    textInRedBox: '#000000',   // White text on red box
+    textInWhiteBox: '#000000', // Black text on white box (white box is always white)
+    textInBlueBox: '#000000',  // Black text on lightblue box (lightblue is always lightblue)
   },
 };

@@ -87,8 +87,20 @@ export default function HomeScreen() {
             {/* Spacer View to align topContainer with bottomContainer */}
             <View style={{ width: leftSpacerWidth }} />
             <ThemedView style={styles.topContainer}>
-              <View style={[styles.innerBox, styles.blueBox,  { flex: budgetTrack.b2 }]} />
-              <View style={[styles.innerBox, styles.redBox,  { flex: budgetTrack.r2 }]} />
+              <View style={[styles.innerBox, styles.blueBox,  { flex: budgetTrack.b2 }]}>
+                {budgetTrack.b2 >= 3 && (
+                  <ThemedText style={[styles.boxValueText, { color: Colors[theme].textInBlueBox }]}>
+                    {`${budgetTrack.b2} K`}
+                  </ThemedText>
+                )}
+              </View>
+              <View style={[styles.innerBox, styles.redBox,  { flex: budgetTrack.r2 }]}>
+                {budgetTrack.r2 >= 3 && (
+                  <ThemedText style={[styles.boxValueText, { color: Colors[theme].textInRedBox }]}>
+                   {`${budgetTrack.r2} K`}
+                  </ThemedText>
+                )}
+              </View>
             </ThemedView>
             <ThemedText style={styles.labelText}>{labelTopContainer}</ThemedText>
           </View>
@@ -111,9 +123,27 @@ export default function HomeScreen() {
 
           {/* Original Bottom Container (Pink Bordered) */}
           <ThemedView style={[styles.bottomContainer, { height: dynamicBottomContainerHeight }]}>
-            <View style={[styles.innerBox, styles.greenBoxBottom, { flex: budgetTrack.g }]} />
-            <View style={[styles.innerBox, styles.redBoxBottom, { flex: budgetTrack.r }]} />
-            <View style={[styles.innerBox, styles.whiteBoxBottom, { flex: budgetTrack.w }]} />
+            <View style={[styles.innerBox, styles.greenBoxBottom, { flex: budgetTrack.g }]}>
+              {budgetTrack.g >= 2 && (
+                <ThemedText style={[styles.boxValueText, { color: Colors[theme].textInGreenBox }]}>
+                  {`${budgetTrack.g} K`}
+                </ThemedText>
+              )}
+            </View>
+            <View style={[styles.innerBox, styles.redBoxBottom, { flex: budgetTrack.r }]}>
+              {budgetTrack.r >= 2 && (
+                <ThemedText style={[styles.boxValueText, { color: Colors[theme].textInRedBox }]}>
+                   {`${budgetTrack.r} K`}
+                </ThemedText>
+              )}
+            </View>
+            <View style={[styles.innerBox, styles.whiteBoxBottom, { flex: budgetTrack.w }]}>
+              {budgetTrack.w >= 2 && (
+                <ThemedText style={[styles.boxValueText, { color: Colors[theme].textInWhiteBox }]}>
+                   {`${budgetTrack.w} K`}
+                </ThemedText>
+              )}
+            </View>
           </ThemedView>
 
           {/* Right Label for Bottom Container */}
@@ -201,7 +231,8 @@ const styles = StyleSheet.create({
   },
   innerBox: {
     width: '100%', // Takes full width of the padded topContainer content area
-    // Other common styles for these boxes if any
+    justifyContent: 'center', // Center content (text) vertically
+    alignItems: 'center',   // Center content (text) horizontally
   },
   blueBox: {
     backgroundColor: 'lightblue',
@@ -266,5 +297,9 @@ const styles = StyleSheet.create({
   },
   leftLabelWhiteText: {
     color: 'white', // simpler, as per image
+  },
+  boxValueText: {
+    fontSize: 20, // Adjust as needed
+    fontWeight: 'bold',
   },
 });

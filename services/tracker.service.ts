@@ -13,8 +13,8 @@ export function getBudgetTrack(): BudgetTrack {
             w: 4,
             r: 2,
             g: 4,
-            b2: 5,
-            r2: 5,
+            b2: 3,
+            r2: 7,
         }
 		return res;
 	} catch (error) {
