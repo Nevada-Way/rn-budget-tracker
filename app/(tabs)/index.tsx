@@ -32,9 +32,18 @@ export default function HomeScreen() {
     const currentStatus = "On Budget";
     // budgetTrack is now initialized earlier
 
-    
+    // Define base heights from styles
+    const topContainerBaseHeight = styles.topContainer.height; // 130
+    const bottomContainerBaseHeight = styles.bottomContainer.height; // 400
 
+    // Determine if the top container section should be visible
+    const showTopContainer = budgetTrack.b2 > 0 || budgetTrack.r2 > 0;
 
+    // Calculate dynamic height for the bottom container
+    let dynamicBottomContainerHeight = bottomContainerBaseHeight;
+    if (!showTopContainer) {
+      dynamicBottomContainerHeight += topContainerBaseHeight;
+    }
 
   return (
     // Root container for the screen
@@ -64,8 +73,8 @@ export default function HomeScreen() {
 
       {/* Body/Content Section */}
       <ThemedView style={styles.bodySection}>
-        {/* Top Container with Label - Conditionally Rendered with Placeholder */}
-        {(budgetTrack.b2 > 0 || budgetTrack.r2 > 0) ? (
+        {/* Top Container with Label - Conditionally Rendered */}
+        {showTopContainer && (
           <View style={styles.containerRowWrapperCentered}>
             <ThemedView style={styles.topContainer}>
               <View style={[styles.innerBox, styles.blueBox,  { flex: budgetTrack.b2 }]} />
@@ -73,13 +82,11 @@ export default function HomeScreen() {
             </ThemedView>
             <ThemedText style={styles.labelText}>{labelTopContainer}</ThemedText>
           </View>
-        ) : (
-          <View style={styles.topSectionPlaceholder} />
         )}
 
         {/* Bottom Container with Label */}
         <View style={styles.containerRowWrapperTopAligned}>
-          <ThemedView style={styles.bottomContainer}>
+          <ThemedView style={[styles.bottomContainer, { height: dynamicBottomContainerHeight }]}>
             <View style={[styles.innerBox, styles.greenBoxBottom, { flex: budgetTrack.g }]} />
             <View style={[styles.innerBox, styles.redBoxBottom, { flex: budgetTrack.r }]} />
             <View style={[styles.innerBox, styles.whiteBoxBottom, { flex: budgetTrack.w }]} />
@@ -207,10 +214,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 10, // Space between container and its label
     textAlign: 'left', // Ensure multi-line text aligns left
-  },
-  topSectionPlaceholder: {
-    height: 130, // Matches styles.topContainer.height
-    marginBottom: 10, // Matches styles.containerRowWrapperCentered.marginBottom
-    // width: 'auto', // Implicitly centered by bodySection if needed, like containerRowWrapperCentered
   },
 });
