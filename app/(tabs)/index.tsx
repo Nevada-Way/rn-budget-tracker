@@ -19,6 +19,11 @@ export default function HomeScreen() {
   const labelTopContainer = "Added\nBudget";
   const labelBottomContainer = "Original\nBudget";
 
+  // Labels for the left side of the bottom container's inner boxes
+  const labelBottomLeftTop = "Available";
+  const labelBottomLeftCenter = "Unplanned";
+  const labelBottomLeftBottom = "Used";
+
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
@@ -86,11 +91,27 @@ export default function HomeScreen() {
 
         {/* Bottom Container with Label */}
         <View style={styles.containerRowWrapperTopAligned}>
+          {/* Left Labels Column for Bottom Container */}
+          <View style={[styles.leftLabelColumn, { height: dynamicBottomContainerHeight }]}>
+            <View style={[styles.leftLabelItemWrapper, { flex: budgetTrack.g }]}>
+              <ThemedText style={[styles.leftLabelTextBase, styles.leftLabelGreen]} adjustsFontSizeToFit numberOfLines={1}>{labelBottomLeftTop}</ThemedText>
+            </View>
+            <View style={[styles.leftLabelItemWrapper, { flex: budgetTrack.r }]}>
+              <ThemedText style={[styles.leftLabelTextBase, styles.leftLabelRed]} adjustsFontSizeToFit numberOfLines={1}>{labelBottomLeftCenter}</ThemedText>
+            </View>
+            <View style={[styles.leftLabelItemWrapper, { flex: budgetTrack.w }]}>
+              <ThemedText style={[styles.leftLabelTextBase, styles.leftLabelWhiteText]} adjustsFontSizeToFit numberOfLines={1}>{labelBottomLeftBottom}</ThemedText>
+            </View>
+          </View>
+
+          {/* Original Bottom Container (Pink Bordered) */}
           <ThemedView style={[styles.bottomContainer, { height: dynamicBottomContainerHeight }]}>
             <View style={[styles.innerBox, styles.greenBoxBottom, { flex: budgetTrack.g }]} />
             <View style={[styles.innerBox, styles.redBoxBottom, { flex: budgetTrack.r }]} />
             <View style={[styles.innerBox, styles.whiteBoxBottom, { flex: budgetTrack.w }]} />
           </ThemedView>
+
+          {/* Right Label for Bottom Container */}
           <ThemedText style={styles.labelText}>{labelBottomContainer}</ThemedText>
         </View>
       </ThemedView>
@@ -214,5 +235,30 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 10, // Space between container and its label
     textAlign: 'left', // Ensure multi-line text aligns left
+  },
+  leftLabelColumn: {
+    flexDirection: 'column',
+    width: 80, // Fixed width for the left labels area
+    marginRight: 10, // Space between left labels and the pink-bordered bottom container
+    // Height is set dynamically inline
+  },
+  leftLabelItemWrapper: {
+    justifyContent: 'center', // Vertically center the text in the allocated flex space
+    alignItems: 'flex-end',   // Push the text to the right edge of this wrapper
+    // backgroundColor: '#555', // For debugging layout
+  },
+  leftLabelTextBase: {
+    // fontSize: 14, // Default font size, adjustsFontSizeToFit will handle if too long
+    textAlign: 'right',
+    paddingRight: 5, // Small padding so text isn't flush against the edge
+  },
+  leftLabelGreen: {
+    color: 'green',
+  },
+  leftLabelRed: {
+    color: 'red',
+  },
+  leftLabelWhiteText: {
+    color: 'white', // simpler, as per image
   },
 });
