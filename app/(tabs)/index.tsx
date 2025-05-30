@@ -50,6 +50,9 @@ export default function HomeScreen() {
       dynamicBottomContainerHeight += topContainerBaseHeight;
     }
 
+    // Calculate the width needed for the spacer to align topContainer with bottomContainer
+    const leftSpacerWidth = styles.leftLabelColumn.width + styles.leftLabelColumn.marginRight;
+
   return (
     // Root container for the screen
     <ThemedView style={styles.screenContainer}>
@@ -81,6 +84,8 @@ export default function HomeScreen() {
         {/* Top Container with Label - Conditionally Rendered */}
         {showTopContainer && (
           <View style={styles.containerRowWrapperCentered}>
+            {/* Spacer View to align topContainer with bottomContainer */}
+            <View style={{ width: leftSpacerWidth }} />
             <ThemedView style={styles.topContainer}>
               <View style={[styles.innerBox, styles.blueBox,  { flex: budgetTrack.b2 }]} />
               <View style={[styles.innerBox, styles.redBox,  { flex: budgetTrack.r2 }]} />
@@ -177,6 +182,7 @@ const styles = StyleSheet.create({
     borderColor: 'pink', // As per the image's highlight
     borderWidth: 2,
     marginBottom: 10, // Space between the top and bottom containers
+    // marginLeft: 80, // Removed: Spacer View now handles this alignment
     padding: 10, // Space between topContainer border and inner boxes
     justifyContent: 'flex-start', // Stack inner boxes from the top
     // alignItems: 'stretch', // Default, inner boxes will stretch if width is not set
