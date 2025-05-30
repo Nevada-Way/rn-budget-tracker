@@ -15,10 +15,9 @@ export default function HomeScreen() {
   const { theme, setTheme } = useCustomTheme(); // Moved theme logic up for clarity
   const budgetTrack : BudgetTrack = getBudgetTrack(); // Moved budgetTrack up for clarity
 
-  // Calculate percentage heights for the inner boxes in topContainer
-  const blueBoxHeightPercent = budgetTrack.b2 * 10;
-  const redBoxHeightPercent = budgetTrack.r2 * 10;
-
+  // Labels for the containers
+  const labelTopContainer = "Added\nBudget";
+  const labelBottomContainer = "Original\nBudget";
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
@@ -32,7 +31,10 @@ export default function HomeScreen() {
     const currentMonth = "June";
     const currentStatus = "On Budget";
     // budgetTrack is now initialized earlier
-  
+
+    
+
+
 
   return (
     // Root container for the screen
@@ -62,15 +64,28 @@ export default function HomeScreen() {
 
       {/* Body/Content Section */}
       <ThemedView style={styles.bodySection}>
-        <ThemedView style={styles.topContainer}>
-          <View style={[styles.innerBox, styles.blueBox,  { flex: budgetTrack.b2 }]} />
-          <View style={[styles.innerBox, styles.redBox,  { flex: budgetTrack.r2 }]} />
-        </ThemedView>
-        <ThemedView style={styles.bottomContainer}>
-          <View style={[styles.innerBox, styles.greenBoxBottom, { flex: budgetTrack.g }]} />
-          <View style={[styles.innerBox, styles.redBoxBottom, { flex: budgetTrack.r }]} />
-          <View style={[styles.innerBox, styles.whiteBoxBottom, { flex: budgetTrack.w }]} />
-        </ThemedView>
+        {/* Top Container with Label - Conditionally Rendered with Placeholder */}
+        {(budgetTrack.b2 > 0 || budgetTrack.r2 > 0) ? (
+          <View style={styles.containerRowWrapperCentered}>
+            <ThemedView style={styles.topContainer}>
+              <View style={[styles.innerBox, styles.blueBox,  { flex: budgetTrack.b2 }]} />
+              <View style={[styles.innerBox, styles.redBox,  { flex: budgetTrack.r2 }]} />
+            </ThemedView>
+            <ThemedText style={styles.labelText}>{labelTopContainer}</ThemedText>
+          </View>
+        ) : (
+          <View style={styles.topSectionPlaceholder} />
+        )}
+
+        {/* Bottom Container with Label */}
+        <View style={styles.containerRowWrapperTopAligned}>
+          <ThemedView style={styles.bottomContainer}>
+            <View style={[styles.innerBox, styles.greenBoxBottom, { flex: budgetTrack.g }]} />
+            <View style={[styles.innerBox, styles.redBoxBottom, { flex: budgetTrack.r }]} />
+            <View style={[styles.innerBox, styles.whiteBoxBottom, { flex: budgetTrack.w }]} />
+          </ThemedView>
+          <ThemedText style={styles.labelText}>{labelBottomContainer}</ThemedText>
+        </View>
       </ThemedView>
     </ThemedView>
   );
@@ -117,21 +132,19 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10, // Space between the last text item and the separator
   },
+
+// The tracker tower
+
   bodySection: {
-    // This style is based on your previous scrollContentContainer
-    flex: 1, // This makes the body section take up all remaining vertical space
-    alignItems: 'center', // Center children horizontally
-    // justifyContent: 'center', // Removed to stack from top
+    flex: 1,
+    alignItems: 'center', // Center the container-row-wrappers horizontally
     padding: 20,
-    // borderWidth: 2, // You can remove debug borders
-    // borderColor: 'green', // You can remove debug borders
-    // ThemedView will apply its own background
   },
   placeholderText: {
     fontSize: 30,
   },
   topContainer: {
-    height: 120,
+    height: 130,
     width: '40%', // Takes 100% of the bodySection width
     borderColor: 'pink', // As per the image's highlight
     borderWidth: 2,
@@ -143,7 +156,7 @@ const styles = StyleSheet.create({
     // backgroundColor: Colors[theme].surface, // Optional: if you want a themed background
   },
   bottomContainer: {
-    height: 350,
+    height: 400,
     width: '40%', // User updated this from 100%
     borderColor: 'pink', // As per the image's highlight
     borderWidth: 2,
@@ -173,5 +186,31 @@ const styles = StyleSheet.create({
   },
   whiteBoxBottom: {
     backgroundColor: 'white',
+  },
+  containerRowWrapperBase: { // Base style for row wrappers
+    flexDirection: 'row',
+    width: '100%', // Make the wrapper take full width of bodySection's content area
+    marginBottom: 10, // Consistent spacing like topContainer had
+  },
+  containerRowWrapperCentered: {
+    flexDirection: 'row',
+    alignItems: 'center', // Vertically center items in the row (for top container)
+    width: 'auto', // Let the content define the width, bodySection will center it
+    marginBottom: 10, // Space between this row and the next
+  },
+  containerRowWrapperTopAligned: {
+    flexDirection: 'row',
+    alignItems: 'flex-start', // Align items to the top of the row (for bottom container)
+    width: 'auto', // Let the content define the width, bodySection will center it
+  },
+  labelText: {
+    fontSize: 20,
+    marginLeft: 10, // Space between container and its label
+    textAlign: 'left', // Ensure multi-line text aligns left
+  },
+  topSectionPlaceholder: {
+    height: 130, // Matches styles.topContainer.height
+    marginBottom: 10, // Matches styles.containerRowWrapperCentered.marginBottom
+    // width: 'auto', // Implicitly centered by bodySection if needed, like containerRowWrapperCentered
   },
 });
